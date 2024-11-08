@@ -126,6 +126,35 @@ struct Determinant
                 if (abs(data[i][j]) > 1e-8) return false;
         return true;
     }
+
+    // Transform the determinant to the Upper Triangular form.
+    void toUpperTriangular()
+    {
+        for (size_t i = 0, n = getOrder(); i < n; i++)
+        {
+            double base = data[i][i];
+            if (abs(base) < 1e-8)
+            {
+                bool swapped = false;
+                for (size_t k = i + 1; k < n; k++) // Attemping to swap row in order to make sure data[i][i] != 0.
+                    if (abs(data[k][i]) > 1e-8)
+                    {
+                        rowSwap(i, k);
+                        base = data[i][i], swapped = true; // Update base right now.
+                        break;
+                    }
+                if (!swapped)
+                {
+                    coefficient = 0; // Can not find none-zero element.
+                    continue; // Skip, not terminate.
+                }
+            }
+            coefficient *= base;
+            if (abs(base - 1) > 1e-8) // Avoid Standardize when the first non-zero element in each row is 1.
+                for (auto& j : data[i]) j /= base; // Standardize the i Row.
+            for (size_t k = i + 1; k < n; k++) rowMutiAndAdd(k, -data[k][i], i);
+        }
+    }
 };
 
 
