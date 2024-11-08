@@ -107,7 +107,7 @@ struct Determinant
     // Let r Row plus k times a Row. (i.e. r += k * a)
     void rowMutiAndAdd(size_t r, double k, size_t a)
     {
-        for (auto i = data[r].begin(), j = data[a].begin(); i != data[r].end(); i++, j++) *i += k * (*j);
+        for (size_t j = 0, n = getOrder(); j < n; j++) data[r][j] += k * data[a][j];
     }
 
     // Let c Col plus k times a Col. (i.e. c += k * a)
