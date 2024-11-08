@@ -73,6 +73,33 @@ struct Determinant
             cout << endl;
         }
     }
+
+    // Swap two rows.
+    void rowSwap(size_t a, size_t b)
+    {
+        minus = !minus;
+        swap(data[a], data[b]);
+    }
+
+    // Swap two cols.
+    void colSwap(size_t a, size_t b)
+    {
+        minus = !minus;
+        for (auto& i : data) swap(i[a], i[b]);
+    }
+
+    // Let r Row multiply by k. (i.e. r *= k)
+    void rowMutiByNum(size_t r, double k)
+    {
+        for (auto& j : data[r]) j *= k;
+    }
+
+    // Let c Col multiply by k. (i.e. c *= k)
+    void colMutiByNum(size_t c, double k)
+    {
+        for (auto& i : data) i[c] *= k;
+    }
+    
 };
 
 
