@@ -13,9 +13,18 @@ struct Determinant
     vector<vector<double>> data;
     bool minus;
 
+    // Init first-order determinant with element 0 by default.
     Determinant()
     {
         data.resize(1), data[0].resize(1);
+        minus = false;
+    }
+
+    // Init n-order determinant with element 0 by default.
+    Determinant(size_t n)
+    {
+        data.resize(n);
+        for (auto& i : data) i.resize(n);
         minus = false;
     }
 
@@ -39,27 +48,21 @@ struct Determinant
         minus = d.minus;
     }
 
-    // Return the size of each row.
-    size_t getRowLen() const
+    // Return the order of the determinant.
+    size_t getOrder() const
     {
         return data.size();
-    }
-
-    // Return the size of each column.
-    size_t getColLen() const
-    {
-        return data[0].size();
     }
 
     // Modify the determinant with inputed ilen, jlen and the whole data block.
     void input()
     {
-        size_t ilen, jlen;
-        cin >> ilen >> jlen;
-        data.resize(ilen);
+        size_t n;
+        cin >> n;
+        data.resize(n);
         for (auto& i : data)
         {
-            i.resize(ilen); // Allocate enough memory only once for each row, avoiding allocating at insert each element, to get the best performance.
+            i.resize(n); // Allocate enough memory only once for each row, avoiding allocating at insert each element, to get the best performance.
             for (auto& j : i) cin >> j;
         }
     }
@@ -99,7 +102,6 @@ struct Determinant
     {
         for (auto& i : data) i[c] *= k;
     }
-    
 };
 
 
