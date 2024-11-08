@@ -11,13 +11,14 @@ using namespace std;
 struct Determinant
 {
     vector<vector<double>> data;
-    bool minus;
+    double coefficient;
+
 
     // Init first-order determinant with element 0 by default.
     Determinant()
     {
         data.resize(1), data[0].resize(1);
-        minus = false;
+        coefficient = 1;
     }
 
     // Init n-order determinant with element 0 by default.
@@ -25,14 +26,14 @@ struct Determinant
     {
         data.resize(n);
         for (auto& i : data) i.resize(n);
-        minus = false;
+        coefficient = 1;
     }
 
     // Init using existing data.
     Determinant(const vector<vector<double>>& d)
     {
         data = d;
-        minus = false;
+        coefficient = 1;
     }
 
     // Return to the x row. We count from 0, which is not common in math.
@@ -45,7 +46,7 @@ struct Determinant
     void operator=(Determinant& d)
     {
         data = d.data;
-        minus = d.minus;
+        coefficient = d.coefficient;
     }
 
     // Return the order of the determinant.
@@ -80,14 +81,14 @@ struct Determinant
     // Swap two rows.
     void rowSwap(size_t a, size_t b)
     {
-        minus = !minus;
+        coefficient = -coefficient;
         swap(data[a], data[b]);
     }
 
     // Swap two cols.
     void colSwap(size_t a, size_t b)
     {
-        minus = !minus;
+        coefficient = -coefficient;
         for (auto& i : data) swap(i[a], i[b]);
     }
 
