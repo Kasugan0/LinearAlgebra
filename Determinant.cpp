@@ -43,7 +43,7 @@ struct Determinant
     }
 
     // Using const reference to copy.
-    void operator=(Determinant& d)
+    void operator=(const Determinant& d)
     {
         data = d.data;
         coefficient = d.coefficient;
