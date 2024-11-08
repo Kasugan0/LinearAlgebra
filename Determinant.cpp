@@ -58,6 +58,7 @@ struct Determinant
     // Modify the determinant with inputed ilen, jlen and the whole data block.
     void input()
     {
+        coefficient = 1;
         size_t n;
         cin >> n;
         data.resize(n);
