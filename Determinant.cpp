@@ -36,7 +36,7 @@ struct Determinant
     }
 
     // Return to the x row. We count from 0, which is not common in math.
-    vector<double> operator[](unsigned int x)
+    vector<double>& operator[](unsigned int x)
     {
         return data[x];
     }
