@@ -36,6 +36,13 @@ struct Determinant
         coefficient = 1;
     }
 
+    // Init using existing ptr to another instance of Determinant.
+    Determinant(const Determinant* ptr)
+    {
+        data = ptr -> data;
+        coefficient = ptr -> coefficient;
+    }
+
     // Return to the x row. We count from 0, which is not common in math.
     vector<double>& operator[](unsigned int x)
     {
@@ -154,6 +161,33 @@ struct Determinant
                 for (auto& j : data[i]) j /= base; // Standardize the i Row.
             for (size_t k = i + 1; k < n; k++) rowMutiAndAdd(k, -data[k][i], i);
         }
+    }
+
+    // Calc the value of the determinant.
+    double calcVal()
+    {
+        Determinant t(this);
+        for (size_t i = 0, n = t.getOrder(); i < n; i++)
+        {
+            double base = t.data[i][i];
+            if (abs(base) < 1e-8)
+            {
+                bool swapped = false;
+                for (size_t k = i + 1; k < n; k++) // Attemping to swap row in order to make sure data[i][i] != 0.
+                    if (abs(t.data[k][i]) > 1e-8)
+                    {
+                        t.rowSwap(i, k);
+                        base = t.data[i][i], swapped = true; // Update base right now.
+                        break;
+                    }
+                if (!swapped) return 0;
+            }
+            t.coefficient *= base;
+            if (abs(base - 1) > 1e-8) // Avoid Standardize when the first non-zero element in each row is 1.
+                for (auto& j : t.data[i]) j /= base; // Standardize the i Row.
+            for (size_t k = i + 1; k < n; k++) t.rowMutiAndAdd(k, -t.data[k][i], i);
+        }
+        return t.coefficient;
     }
 };
 
