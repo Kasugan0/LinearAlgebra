@@ -159,23 +159,23 @@ struct Determinant
         Determinant t(this);
         for (size_t i = 0, n = t.getOrder(); i < n; i++)
         {
-            double base = t.data[i][i];
+            double base = t[i][i];
             if (abs(base) < PRECISION)
             {
                 bool swapped = false;
                 for (size_t k = i + 1; k < n; k++) // Attemping to swap row in order to make sure data[i][i] != 0.
-                    if (abs(t.data[k][i]) > PRECISION)
+                    if (abs(t[k][i]) > PRECISION)
                     {
                         t.rowSwap(i, k);
-                        base = t.data[i][i], swapped = true; // Update base right now.
+                        base = t[i][i], swapped = true; // Update base right now.
                         break;
                     }
                 if (!swapped) return 0;
             }
             t.coefficient *= base;
             if (abs(base - 1) > PRECISION) // Avoid Standardize when the first non-zero element in each row is 1.
-                for (auto& j : t.data[i]) j /= base; // Standardize the i Row.
-            for (size_t k = i + 1; k < n; k++) t.rowMutiAndAdd(k, -t.data[k][i], i);
+                for (auto& j : t[i]) j /= base; // Standardize the i Row.
+            for (size_t k = i + 1; k < n; k++) t.rowMutiAndAdd(k, -t[k][i], i);
         }
         return t.coefficient;
     }
