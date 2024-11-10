@@ -179,6 +179,26 @@ struct Determinant
         }
         return t.coefficient;
     }
+
+    // Return to the the (r, c) minor.
+    Determinant getMinor(size_t r, size_t c)
+    {
+        Determinant ans(getOrder() - 1);
+        auto newBg = ans.data.begin(), oriBg = data.begin(), oriEd = data.end();
+        copy(oriBg, oriBg + r, newBg), copy(oriBg + r + 1, oriEd, newBg + r);
+        for (auto& i : ans.data) i.erase(i.begin() + c);
+        return ans;
+    }
+
+    // Return to the ptr of the (r, c) minor, which is more recommended than getMinor().
+    Determinant* getMinorPtr(size_t r, size_t c)
+    {
+        Determinant* ans = new Determinant(getOrder() - 1);
+        auto newBg = ans -> data.begin(), oriBg = data.begin(), oriEd = data.end();
+        copy(oriBg, oriBg + r, newBg), copy(oriBg + r + 1, oriEd, newBg + r);
+        for (auto& i : ans -> data) i.erase(i.begin() + c);
+        return ans;
+    }
 };
 
 
