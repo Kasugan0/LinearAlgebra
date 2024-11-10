@@ -10,6 +10,8 @@ using namespace std;
 
 struct Determinant
 {
+    static constexpr double PRECISION = 1e-8; // The precision of computing.
+
     vector<vector<double>> data;
     double coefficient;
 
@@ -129,7 +131,7 @@ struct Determinant
     {
         for (const auto& i : data)
             for (const auto& j : i)
-                if (j > 1e-8) return false;
+                if (j > PRECISION) return false;
         return true;
     }
 
@@ -139,11 +141,11 @@ struct Determinant
         for (size_t i = 0, n = getOrder(); i < n; i++)
         {
             double base = data[i][i];
-            if (abs(base) < 1e-8)
+            if (abs(base) < PRECISION)
             {
                 bool swapped = false;
                 for (size_t k = i + 1; k < n; k++) // Attemping to swap row in order to make sure data[i][i] != 0.
-                    if (abs(data[k][i]) > 1e-8)
+                    if (abs(data[k][i]) > PRECISION)
                     {
                         rowSwap(i, k);
                         base = data[i][i], swapped = true; // Update base right now.
@@ -156,7 +158,7 @@ struct Determinant
                 }
             }
             coefficient *= base;
-            if (abs(base - 1) > 1e-8) // Avoid Standardize when the first non-zero element in each row is 1.
+            if (abs(base - 1) > PRECISION) // Avoid Standardize when the first non-zero element in each row is 1.
                 for (auto& j : data[i]) j /= base; // Standardize the i Row.
             for (size_t k = i + 1; k < n; k++) rowMutiAndAdd(k, -data[k][i], i);
         }
@@ -169,11 +171,11 @@ struct Determinant
         for (size_t i = 0, n = t.getOrder(); i < n; i++)
         {
             double base = t.data[i][i];
-            if (abs(base) < 1e-8)
+            if (abs(base) < PRECISION)
             {
                 bool swapped = false;
                 for (size_t k = i + 1; k < n; k++) // Attemping to swap row in order to make sure data[i][i] != 0.
-                    if (abs(t.data[k][i]) > 1e-8)
+                    if (abs(t.data[k][i]) > PRECISION)
                     {
                         t.rowSwap(i, k);
                         base = t.data[i][i], swapped = true; // Update base right now.
@@ -182,7 +184,7 @@ struct Determinant
                 if (!swapped) return 0;
             }
             t.coefficient *= base;
-            if (abs(base - 1) > 1e-8) // Avoid Standardize when the first non-zero element in each row is 1.
+            if (abs(base - 1) > PRECISION) // Avoid Standardize when the first non-zero element in each row is 1.
                 for (auto& j : t.data[i]) j /= base; // Standardize the i Row.
             for (size_t k = i + 1; k < n; k++) t.rowMutiAndAdd(k, -t.data[k][i], i);
         }
