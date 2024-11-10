@@ -13,23 +13,23 @@ struct Determinant
     static constexpr double PRECISION = 1e-8; // The precision of computing.
 
     vector<vector<double>> data;
-    double coefficient;
+    double coef;
 
 
     // Init first-order determinant with element 0 by default.
-    Determinant() : data(1, std::vector<double>(1, 0)), coefficient(1) {}
+    Determinant() : data(1, std::vector<double>(1, 0)), coef(1) {}
 
     // Init n-order determinant with element 0 by default.
-    Determinant(size_t n) : data(n, std::vector<double>(n, 0)), coefficient(1) {}
+    Determinant(size_t n) : data(n, std::vector<double>(n, 0)), coef(1) {}
 
     // Init using existing data.
-    Determinant(const std::vector<std::vector<double>>& other) : data(other), coefficient(1) {}
+    Determinant(const std::vector<std::vector<double>>& other) : data(other), coef(1) {}
 
     // Init using existing ptr to another instance of Determinant.
-    Determinant(const Determinant* ptr) : data(ptr -> data), coefficient(ptr -> coefficient) {}
+    Determinant(const Determinant* ptr) : data(ptr -> data), coef(ptr -> coef) {}
 
     // Init using existing another instance of Determinant.
-    Determinant(const Determinant& other) : data(other.data), coefficient(other.coefficient) {}
+    Determinant(const Determinant& other) : data(other.data), coef(other.coef) {}
 
     // Use the default dtor.
     ~Determinant() = default;
@@ -44,11 +44,11 @@ struct Determinant
     void operator=(const Determinant& d)
     {
         data = d.data;
-        coefficient = d.coefficient;
+        coef = d.coef;
     }
 
     // Return the order of the determinant.
-    size_t getOrder() const
+    size_t getOrd() const
     {
         return data.size();
     }
@@ -56,7 +56,7 @@ struct Determinant
     // Modify the determinant with inputed ilen, jlen and the whole data block.
     void input()
     {
-        coefficient = 1;
+        coef = 1;
         size_t n;
         cin >> n;
         data.resize(n);
@@ -78,16 +78,16 @@ struct Determinant
     }
 
     // Swap two rows.
-    void rowSwap(size_t a, size_t b)
+    void rowSwp(size_t a, size_t b)
     {
-        coefficient = -coefficient;
+        coef = -coef;
         swap(data[a], data[b]);
     }
 
     // Swap two cols.
-    void colSwap(size_t a, size_t b)
+    void colSwp(size_t a, size_t b)
     {
-        coefficient = -coefficient;
+        coef = -coef;
         for (auto& i : data) swap(i[a], i[b]);
     }
 
@@ -106,7 +106,7 @@ struct Determinant
     // Let r Row plus k times a Row. (i.e. r += k * a)
     void rowMutiAndAdd(size_t r, double k, size_t a)
     {
-        for (size_t j = 0, n = getOrder(); j < n; j++) data[r][j] += k * data[a][j];
+        for (size_t j = 0, n = getOrd(); j < n; j++) data[r][j] += k * data[a][j];
     }
 
     // Let c Col plus k times a Col. (i.e. c += k * a)
@@ -116,7 +116,7 @@ struct Determinant
     }
 
     // Return true if this is a Upper Triangular Determinant.
-    bool isUpperTriangular()
+    bool isUpTri()
     {
         for (const auto& i : data)
             for (const auto& j : i)
@@ -125,28 +125,28 @@ struct Determinant
     }
 
     // Transform the determinant to the Upper Triangular form.
-    void toUpperTriangular()
+    void toUpTri()
     {
-        for (size_t i = 0, n = getOrder(); i < n; i++)
+        for (size_t i = 0, n = getOrd(); i < n; i++)
         {
             double base = data[i][i];
             if (abs(base) < PRECISION)
             {
-                bool swapped = false;
+                bool swp = false;
                 for (size_t k = i + 1; k < n; k++) // Attemping to swap row in order to make sure data[i][i] != 0.
                     if (abs(data[k][i]) > PRECISION)
                     {
-                        rowSwap(i, k);
-                        base = data[i][i], swapped = true; // Update base right now.
+                        rowSwp(i, k);
+                        base = data[i][i], swp = true; // Update base right now.
                         break;
                     }
-                if (!swapped)
+                if (!swp)
                 {
-                    coefficient = 0; // Can not find none-zero element.
+                    coef = 0; // Can not find none-zero element.
                     continue; // Skip, not terminate.
                 }
             }
-            coefficient *= base;
+            coef *= base;
             if (abs(base - 1) > PRECISION) // Avoid Standardize when the first non-zero element in each row is 1.
                 for (auto& j : data[i]) j /= base; // Standardize the i Row.
             for (size_t k = i + 1; k < n; k++) rowMutiAndAdd(k, -data[k][i], i);
@@ -157,43 +157,43 @@ struct Determinant
     double calcVal()
     {
         Determinant t(this);
-        for (size_t i = 0, n = t.getOrder(); i < n; i++)
+        for (size_t i = 0, n = t.getOrd(); i < n; i++)
         {
             double base = t[i][i];
             if (abs(base) < PRECISION)
             {
-                bool swapped = false;
+                bool swp = false;
                 for (size_t k = i + 1; k < n; k++) // Attemping to swap row in order to make sure data[i][i] != 0.
                     if (abs(t[k][i]) > PRECISION)
                     {
-                        t.rowSwap(i, k);
-                        base = t[i][i], swapped = true; // Update base right now.
+                        t.rowSwp(i, k);
+                        base = t[i][i], swp = true; // Update base right now.
                         break;
                     }
-                if (!swapped) return 0;
+                if (!swp) return 0;
             }
-            t.coefficient *= base;
+            t.coef *= base;
             if (abs(base - 1) > PRECISION) // Avoid Standardize when the first non-zero element in each row is 1.
                 for (auto& j : t[i]) j /= base; // Standardize the i Row.
             for (size_t k = i + 1; k < n; k++) t.rowMutiAndAdd(k, -t[k][i], i);
         }
-        return t.coefficient;
+        return t.coef;
     }
 
     // Return to the the (r, c) minor.
-    Determinant getMinor(size_t r, size_t c)
+    Determinant getMnr(size_t r, size_t c)
     {
-        Determinant ans(getOrder() - 1);
+        Determinant ans(getOrd() - 1);
         auto newBg = ans.data.begin(), oriBg = data.begin(), oriEd = data.end();
         copy(oriBg, oriBg + r, newBg), copy(oriBg + r + 1, oriEd, newBg + r);
         for (auto& i : ans.data) i.erase(i.begin() + c);
         return ans;
     }
 
-    // Return to the ptr of the (r, c) minor, which is more recommended than getMinor().
-    Determinant* getMinorPtr(size_t r, size_t c)
+    // Return to the ptr of the (r, c) minor, which is more recommended than getMnr().
+    Determinant* getMnrPtr(size_t r, size_t c)
     {
-        Determinant* ans = new Determinant(getOrder() - 1);
+        Determinant* ans = new Determinant(getOrd() - 1);
         auto newBg = ans -> data.begin(), oriBg = data.begin(), oriEd = data.end();
         copy(oriBg, oriBg + r, newBg), copy(oriBg + r + 1, oriEd, newBg + r);
         for (auto& i : ans -> data) i.erase(i.begin() + c);
@@ -201,11 +201,11 @@ struct Determinant
     }
 
     // Return to the (r, c) algebraic minor.
-    double calcAlgMinor(size_t r, size_t c)
+    double calcAlgMnr(size_t r, size_t c)
     {
-        Determinant* mnr = getMinorPtr(c, r);
-        mnr -> toUpperTriangular();
-        return mnr -> coefficient;
+        Determinant* mnr = getMnrPtr(c, r);
+        mnr -> toUpTri();
+        return mnr -> coef;
     }
 };
 
