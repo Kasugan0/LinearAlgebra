@@ -127,10 +127,9 @@ struct Determinant
     // Return true if this is a Upper Triangular Determinant.
     bool isUpperTriangular()
     {
-        size_t n = getOrder();
-        for (size_t i = 0; i < n; i++)
-            for (size_t j = 0; j < i; j++)
-                if (abs(data[i][j]) > 1e-8) return false;
+        for (const auto& i : data)
+            for (const auto& j : i)
+                if (j > 1e-8) return false;
         return true;
     }
 
