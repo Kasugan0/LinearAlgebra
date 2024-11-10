@@ -199,6 +199,14 @@ struct Determinant
         for (auto& i : ans -> data) i.erase(i.begin() + c);
         return ans;
     }
+
+    // Return to the (r, c) algebraic minor.
+    double calcAlgMinor(size_t r, size_t c)
+    {
+        Determinant* mnr = getMinorPtr(c, r);
+        mnr -> toUpperTriangular();
+        return mnr -> coefficient;
+    }
 };
 
 
