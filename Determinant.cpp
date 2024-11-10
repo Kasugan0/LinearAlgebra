@@ -17,33 +17,22 @@ struct Determinant
 
 
     // Init first-order determinant with element 0 by default.
-    Determinant()
-    {
-        data.resize(1), data[0].resize(1);
-        coefficient = 1;
-    }
+    Determinant() : data(1, std::vector<double>(1, 0)), coefficient(1) {}
 
     // Init n-order determinant with element 0 by default.
-    Determinant(size_t n)
-    {
-        data.resize(n);
-        for (auto& i : data) i.resize(n);
-        coefficient = 1;
-    }
+    Determinant(size_t n) : data(n, std::vector<double>(n, 0)), coefficient(1) {}
 
     // Init using existing data.
-    Determinant(const vector<vector<double>>& d)
-    {
-        data = d;
-        coefficient = 1;
-    }
+    Determinant(const std::vector<std::vector<double>>& other) : data(other), coefficient(1) {}
 
     // Init using existing ptr to another instance of Determinant.
-    Determinant(const Determinant* ptr)
-    {
-        data = ptr -> data;
-        coefficient = ptr -> coefficient;
-    }
+    Determinant(const Determinant* ptr) : data(ptr -> data), coefficient(ptr -> coefficient) {}
+
+    // Init using existing another instance of Determinant.
+    Determinant(const Determinant& other) : data(other.data), coefficient(other.coefficient) {}
+
+    // Use the default dtor.
+    ~Determinant() = default;
 
     // Return to the x row. We count from 0, which is not common in math.
     vector<double>& operator[](unsigned int x)
