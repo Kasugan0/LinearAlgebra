@@ -55,6 +55,32 @@ struct Matrix
         return data[x];
     }
 
+    // Return to the sum of this add another Matrix.
+    Matrix operator+(Matrix& other)
+    {
+        size_t ilen = getRowCnt(), jlen = getColCnt();
+        if (ilen != other.getRowCnt() || jlen != other.getColCnt())
+            throw std::runtime_error("The two Matrix being added are not of the same type.");
+        Matrix ans(ilen, jlen);
+        for (size_t i = 0; i < ilen; i++)
+            for (size_t j = 0; j < jlen; j++)
+                ans[i][j] = data[i][j] + other[i][j];
+        return ans;
+    }
+
+    // Return to the diff of this subtract another Matrix.
+    Matrix operator-(Matrix& other)
+    {
+        size_t ilen = getRowCnt(), jlen = getColCnt();
+        if (ilen != other.getRowCnt() || jlen != other.getColCnt())
+            throw std::runtime_error("The two Matrix being subtracted are not of the same type.");
+        Matrix ans(ilen, jlen);
+        for (size_t i = 0; i < ilen; i++)
+            for (size_t j = 0; j < jlen; j++)
+                ans[i][j] = data[i][j] - other[i][j];
+        return ans;
+    }
+
     // Using const reference to copy.
     void operator=(const Matrix& m)
     {
