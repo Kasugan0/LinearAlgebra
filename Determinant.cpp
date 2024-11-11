@@ -53,7 +53,7 @@ struct Determinant
         return data.size();
     }
 
-    // Modify the determinant with inputed ilen, jlen and the whole data block.
+    // Modify the determinant with inputed n and the whole data block.
     void input()
     {
         coef = 1;
