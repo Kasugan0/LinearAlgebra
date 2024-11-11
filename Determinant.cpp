@@ -35,7 +35,7 @@ struct Determinant
     ~Determinant() = default;
 
     // Return to the x row. We count from 0, which is not common in math.
-    vector<double>& operator[](unsigned int x)
+    vector<double>& operator[](size_t x)
     {
         return data[x];
     }
