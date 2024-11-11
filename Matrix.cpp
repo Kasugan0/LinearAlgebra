@@ -81,6 +81,16 @@ struct Matrix
         return ans;
     }
 
+    // Return to the product of this mutiply another number.
+    Matrix operator*(double fct)
+    {
+        Matrix ans(getRowCnt(), getColCnt());
+        for (size_t i = 0; i < ilen; i++)
+            for (size_t j = 0; j < jlen; j++)
+                ans[i][j] = fct * data[i][j];
+        return ans;
+    }
+
     // Using const reference to copy.
     void operator=(const Matrix& m)
     {
