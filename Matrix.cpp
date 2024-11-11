@@ -33,6 +33,22 @@ struct Matrix
     // Use the default dtor.
     ~Matrix() = default;
 
+    // Return to the n-by-n Identity Matrix.
+    static Matrix newIdMtrx(size_t n)
+    {
+        Matrix ans(n, n);
+        for (size_t i = 0; i < n; i++) ans[i][i] = 1;
+        return ans;
+    }
+
+    // Return to the ptr of n-by-n Identity Matrix.
+    static Matrix newIdMtrxPtr(size_t n)
+    {
+        Matrix* ans = new Matrix(n, n);
+        for (size_t i = 0; i < n; i++) ans -> data[i][i] = 1;
+        return ans;
+    }
+
     // Return to the x row. We count from 0, which is not common in math.
     vector<double>& operator[](unsigned int x)
     {
