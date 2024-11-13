@@ -60,7 +60,7 @@ struct Matrix
     {
         size_t ilen = getRowCnt(), jlen = getColCnt();
         if (ilen != other.getRowCnt() || jlen != other.getColCnt())
-            throw std::runtime_error("The two Matrix being added are not of the same type.");
+            throw runtime_error("The two Matrix being added are not of the same type.");
         Matrix ans(ilen, jlen);
         for (size_t i = 0; i < ilen; i++)
             for (size_t j = 0; j < jlen; j++)
@@ -73,7 +73,7 @@ struct Matrix
     {
         size_t ilen = getRowCnt(), jlen = getColCnt();
         if (ilen != other.getRowCnt() || jlen != other.getColCnt())
-            throw std::runtime_error("The two Matrix being subtracted are not of the same type.");
+            throw runtime_error("The two Matrix being subtracted are not of the same type.");
         Matrix ans(ilen, jlen);
         for (size_t i = 0; i < ilen; i++)
             for (size_t j = 0; j < jlen; j++)
