@@ -84,7 +84,8 @@ struct Matrix
     // Return to the product of this multiply another number.
     Matrix operator*(double fct)
     {
-        Matrix ans(getRowCnt(), getColCnt());
+        size_t ilen = getRowCnt(), jlen = getColCnt();
+        Matrix ans(ilen, jlen);
         for (size_t i = 0; i < ilen; i++)
             for (size_t j = 0; j < jlen; j++)
                 ans[i][j] = fct * data[i][j];
