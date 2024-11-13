@@ -92,25 +92,25 @@ struct Determinant
     }
 
     // Let r Row multiply by k. (i.e. r *= k)
-    void rowMutiByNum(size_t r, double k)
+    void rowMultiByNum(size_t r, double k)
     {
         for (auto& j : data[r]) j *= k;
     }
 
     // Let c Col multiply by k. (i.e. c *= k)
-    void colMutiByNum(size_t c, double k)
+    void colMultiByNum(size_t c, double k)
     {
         for (auto& i : data) i[c] *= k;
     }
 
     // Let r Row plus k times a Row. (i.e. r += k * a)
-    void rowMutiAndAdd(size_t r, double k, size_t a)
+    void rowMultiAndAdd(size_t r, double k, size_t a)
     {
         for (size_t j = 0, n = getOrd(); j < n; j++) data[r][j] += k * data[a][j];
     }
 
     // Let c Col plus k times a Col. (i.e. c += k * a)
-    void colMutiAndAdd(size_t c, double k, size_t a)
+    void colMultiAndAdd(size_t c, double k, size_t a)
     {
         for (auto& i : data) i[c] += k * i[a];
     }
@@ -149,7 +149,7 @@ struct Determinant
             coef *= base;
             if (abs(base - 1) > PRECISION) // Avoid Standardize when the first non-zero element in each row is 1.
                 for (auto& j : data[i]) j /= base; // Standardize the i Row.
-            for (size_t k = i + 1; k < n; k++) rowMutiAndAdd(k, -data[k][i], i);
+            for (size_t k = i + 1; k < n; k++) rowMultiAndAdd(k, -data[k][i], i);
         }
     }
 
@@ -175,7 +175,7 @@ struct Determinant
             t.coef *= base;
             if (abs(base - 1) > PRECISION) // Avoid Standardize when the first non-zero element in each row is 1.
                 for (auto& j : t[i]) j /= base; // Standardize the i Row.
-            for (size_t k = i + 1; k < n; k++) t.rowMutiAndAdd(k, -t[k][i], i);
+            for (size_t k = i + 1; k < n; k++) t.rowMultiAndAdd(k, -t[k][i], i);
         }
         return t.coef;
     }

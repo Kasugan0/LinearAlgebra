@@ -81,7 +81,7 @@ struct Matrix
         return ans;
     }
 
-    // Return to the product of this mutiply another number.
+    // Return to the product of this multiply another number.
     Matrix operator*(double fct)
     {
         Matrix ans(getRowCnt(), getColCnt());
